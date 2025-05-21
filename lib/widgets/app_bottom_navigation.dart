@@ -18,8 +18,9 @@ class AppBottomNavigation extends StatelessWidget {
         color: AppTheme.whiteColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.03), 
+            blurRadius: 15, 
+            spreadRadius: 1, 
             offset: const Offset(0, -5),
           ),
         ],
@@ -40,20 +41,41 @@ class AppBottomNavigation extends StatelessWidget {
           fontSize: 12,
         ),
         elevation: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home_outlined,
+              size: currentIndex == 0 ? 28 : 24, 
+            ),
+            activeIcon: Icon(
+              Icons.home,
+              size: 28, 
+              color: AppTheme.primaryColor,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            activeIcon: Icon(Icons.shopping_cart),
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              size: currentIndex == 1 ? 28 : 24,
+            ),
+            activeIcon: Icon(
+              Icons.shopping_cart,
+              size: 28,
+              color: AppTheme.primaryColor,
+            ),
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person_outline,
+              size: currentIndex == 2 ? 28 : 24,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+              size: 28,
+              color: AppTheme.primaryColor,
+            ),
             label: 'You',
           ),
         ],

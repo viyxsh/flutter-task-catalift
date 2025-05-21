@@ -5,6 +5,7 @@ import 'package:flutter_task_catalift/models/course.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/course_card.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_task_catalift/widgets/notifier_widget.dart';
 
 class CartScreen extends StatelessWidget {
   final void Function(int) navigateToScreen;
@@ -13,6 +14,16 @@ class CartScreen extends StatelessWidget {
     super.key,
     required this.navigateToScreen,
   });
+
+  void _showPaymentDialog(BuildContext context, CartProvider cartProvider) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return _PaymentDialog(cartProvider: cartProvider);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +58,12 @@ class CartScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Add Lottie animation
           Lottie.asset(
             'assets/animations/empty_cart.json',
             width: 200,
             height: 200,
             fit: BoxFit.contain,
-            repeat: true, // Loop the animation
+            repeat: true,
           ),
           const SizedBox(height: 16),
           const Text(
@@ -102,11 +112,11 @@ class CartScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     cartProvider.removeItem(course.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Course removed from cart'),
-                        duration: Duration(seconds: 1),
-                      ),
+                    NotifierWidget.show(
+                      context,
+                      message: 'Course removed from cart',
+                      backgroundColor: AppTheme.primaryColor,
+                      textColor: Colors.white,
                     );
                   },
                 ),
@@ -147,12 +157,7 @@ class CartScreen extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proceeding to checkout...'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
+                      _showPaymentDialog(context, cartProvider);
                     },
                     style: AppTheme.primaryButtonStyle,
                     child: const Text(
@@ -169,6 +174,72 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PaymentDialog extends StatefulWidget {
+  final CartProvider cartProvider;
+
+  const _PaymentDialog({required this.cartProvider});
+
+  @override
+  _PaymentDialogState createState() => _PaymentDialogState();
+}
+
+class _PaymentDialogState extends State<_PaymentDialog> {
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _startPaymentProcess();
+  }
+
+  void _startPaymentProcess() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+
+      Future.delayed(const Duration(seconds: 2), () {
+        if (!mounted) return;
+        widget.cartProvider.clearCart();
+        Navigator.of(context).pop();
+        NotifierWidget.show(
+          context,
+          message: 'Purchase completed! Cart cleared.',
+          backgroundColor: AppTheme.primaryColor,
+          textColor: Colors.white,
+        );
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Lottie.asset(
+            isLoading
+                ? 'assets/animations/loading_payment.json'
+                : 'assets/animations/tick_success.json',
+            width: 250,
+            height: 250,
+            fit: BoxFit.contain,
+            repeat: isLoading,
+            onLoaded: (composition) {
+              debugPrint('Animation loaded: ${isLoading ? "loading_payment.json" : "tick_success.json"}');
+              debugPrint('Duration: ${composition.duration.inSeconds} seconds');
+            },
+          ),
+        ],
+      ),
     );
   }
 }
