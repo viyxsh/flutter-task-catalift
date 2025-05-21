@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_task_catalift/models/course.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/course_card.dart';
+import 'package:lottie/lottie.dart';
 
 class CartScreen extends StatelessWidget {
   final void Function(int) navigateToScreen;
@@ -46,6 +47,15 @@ class CartScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Add Lottie animation
+          Lottie.asset(
+            'assets/animations/empty_cart.json',
+            width: 200,
+            height: 200,
+            fit: BoxFit.contain,
+            repeat: true, // Loop the animation
+          ),
+          const SizedBox(height: 16),
           const Text(
             'Your cart is empty',
             style: TextStyle(

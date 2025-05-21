@@ -6,7 +6,6 @@ import 'package:flutter_task_catalift/providers/bookmark_provider.dart';
 import 'package:flutter_task_catalift/providers/cart_provider.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/app_bottom_navigation.dart';
-import 'package:flutter_task_catalift/widgets/category_chip.dart';
 import 'package:flutter_task_catalift/widgets/course_card.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -32,10 +31,9 @@ class CourseDetailsScreen extends StatefulWidget {
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    // Filter similar courses by the selected course's category
     final filteredSimilarCourses = widget.similarCourses.where((course) {
-      final matchesCategory = widget.selectedCategory == 'ALL' ||
-          course.category == widget.selectedCategory;
-      return matchesCategory && course.id != widget.course.id;
+      return course.category == widget.course.category && course.id != widget.course.id;
     }).toList();
 
     return Scaffold(
@@ -348,29 +346,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 ),
               ),
             ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 40,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            itemCount: courseCategories.length,
-            itemBuilder: (context, index) {
-              final category = courseCategories[index];
-              final isSelected = widget.selectedCategory == category;
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: CategoryChip(
-                  label: category,
-                  isSelected: isSelected,
-                  onTap: () {
-                    widget.onCategoryChanged(category);
-                  },
-                ),
-              );
-            },
           ),
         ),
         const SizedBox(height: 16),
