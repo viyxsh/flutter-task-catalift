@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_task_catalift/data/course_data.dart';
 import 'package:flutter_task_catalift/models/course.dart';
 import 'package:flutter_task_catalift/providers/bookmark_provider.dart';
 import 'package:flutter_task_catalift/providers/cart_provider.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/app_bottom_navigation.dart';
 import 'package:flutter_task_catalift/widgets/course_card.dart';
+import 'package:flutter_task_catalift/widgets/notifier_widget.dart'; 
 
 class CourseDetailsScreen extends StatefulWidget {
   final Course course;
@@ -31,7 +31,6 @@ class CourseDetailsScreen extends StatefulWidget {
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    // Filter similar courses by the selected course's category
     final filteredSimilarCourses = widget.similarCourses.where((course) {
       return course.category == widget.course.category && course.id != widget.course.id;
     }).toList();
@@ -80,15 +79,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 ),
                 onPressed: () {
                   bookmarkProvider.toggleBookmark(widget.course);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        isBookmarked 
-                            ? 'Bookmark removed!' 
-                            : 'Course bookmarked!',
-                      ),
-                      duration: const Duration(seconds: 1),
-                    ),
+                  // Show NotifierWidget instead of SnackBar
+                  NotifierWidget.show(
+                    context,
+                    message: isBookmarked ? 'Bookmark removed!' : 'Course bookmarked!',
+                    backgroundColor: AppTheme.primaryColor,
+                    textColor: Colors.white,
                   );
                 },
               );
@@ -111,10 +107,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         ),
       ),
       bottomNavigationBar: AppBottomNavigation(
-        currentIndex: 0, // Default to Home
+        currentIndex: 0,
         onTap: (index) {
-          Navigator.of(context).pop(); // Pop CourseDetailsScreen
-          widget.navigateToScreen(index); // Update MainScreen index
+          Navigator.of(context).pop();
+          widget.navigateToScreen(index);
         },
       ),
     );
@@ -147,7 +143,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Colors.teal, // Green background for "Highly Enrolled" tag
+                color: Colors.teal,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Text(
@@ -255,15 +251,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                       } else {
                         cartProvider.addItem(widget.course);
                       }
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            isInCart
-                                ? 'Course removed from cart'
-                                : 'Course added to cart',
-                          ),
-                          duration: const Duration(seconds: 1),
-                        ),
+                      // Show NotifierWidget instead of SnackBar
+                      NotifierWidget.show(
+                        context,
+                        message: isInCart
+                            ? 'Course removed from cart'
+                            : 'Course added to cart',
+                        backgroundColor: AppTheme.primaryColor,
+                        textColor: Colors.white,
                       );
                     },
                     style: AppTheme.secondaryButtonStyle,
@@ -285,15 +280,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                     onPressed: () {
                       if (!isInCart) {
                         cartProvider.addItem(widget.course);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Course added to cart'),
-                            duration: Duration(seconds: 1),
-                          ),
+                        // Show NotifierWidget instead of SnackBar
+                        NotifierWidget.show(
+                          context,
+                          message: 'Course added to cart',
+                          backgroundColor: AppTheme.primaryColor,
+                          textColor: Colors.white,
                         );
                       }
-                      Navigator.of(context).pop(); // Pop CourseDetailsScreen
-                      widget.navigateToScreen(1); // Navigate to Cart
+                      Navigator.of(context).pop();
+                      widget.navigateToScreen(1);
                     },
                     style: AppTheme.primaryButtonStyle,
                     child: const Text(
@@ -332,9 +328,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  widget.onCategoryChanged(widget.course.category); // Set category
-                  Navigator.of(context).pop(); // Pop CourseDetailsScreen
-                  widget.navigateToScreen(0); // Navigate to Home
+                  widget.onCategoryChanged(widget.course.category);
+                  Navigator.of(context).pop();
+                  widget.navigateToScreen(0);
                 },
                 child: const Text(
                   'See All',
