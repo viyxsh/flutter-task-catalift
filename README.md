@@ -1,63 +1,29 @@
-# Catalift Developer Task
+# Catalift - A Course Management App in Flutter
 
-Welcome to the official task repository for candidates applying to join the Catalift development team.
+A simple Flutter app for browsing, bookmarking, and managing courses in a cart, built as part of Catalift's Developer Task to assess development skills, code structure, and UI implementation capabilities.
 
-## 🎯 Task Objective
+## Demo
 
-Your task is to **replicate a mobile app screen** based on the design files we’ve shared with you via email. This will help us assess your development skills, code structure, and UI implementation capabilities.
+![App Demo](assets/demo_files/demovid.mp4)
 
----
+## Functionality:
+- Browse featured and similar courses categorized by topics (e.g., AI & ML, Design, Public Speaking).
+- Add courses to a cart for potential enrollment.
+- Bookmark courses to save them for later.
+- Persist cart and bookmark state across app restarts using `shared_preferences`.
+- View course details (title, description, price, rating, enrollments, lessons).
+- Filter courses by category.
 
-## 📬 Design Assets
+## Non-Functional Requirements:
+- Proper folder structure (data, models, providers, screens, utils, widgets).
+- State management using the `provider` package.
+- Persistence of user data (cart and bookmarks) using `shared_preferences`.
+- Clean and maintainable code following Flutter best practices.
 
-All required design assets (PNG/SVG) have been sent to your registered email address. Please check your inbox for a mail from **techcatalift@gmail.com** with the subject line:  
-**"Congratulations – Move Forward with Catalift's Developer Task!"**
-
----
-
-## ✅ What You Need to Do
-
-1. **Fork this repository** to your own GitHub account.
-2. Create a new branch (optional but preferred):  
-   `git checkout -b your-name-task`
-3. Build the screen using Flutter. (If you prefer to build using different tech stack and not flutter immediately mail techcatalift@gmail.com with subject as "change task repo")
-4. Maintain a clean and modular code structure.
-5. Commit and push your code directly to your forked repository not inside a folder.
-6. Submit the link to your public fork using the official submission form.
-
----
-
-## 💡 Evaluation Criteria
-
-- Clean, well-organized code  
-- Accuracy and responsiveness of layout  
-- Sensible use of components and naming  
-- Design improvements (also heavily weighted: only for those who opted for dev+design)  
-
----
-
-## ⚠️ Important Notes
-
-- Submit your task within **7 days** of receiving this link.
-- Your forked repository must be **public** for review.
-
----
-
-## 📩 Need Help?
-
-If you face any issues or have questions, feel free to reach us at:  
-**techcatalift@gmail.com**
-
-We look forward to reviewing your work. Best of luck!
-
-
-About Catalift: 
-Catalift is a mobile-first platform that connects engineering students with alumni mentors for career guidance, emotional support, and real-world skill development. It offers:
-
-1-on-1 mentorship
-
-Career-focused cohorts and projects
-
-Alumni-led courses
-
-A supportive community for aspiring engineers
+## Project Structure:
+- **data/**: Contains hardcoded course data.
+- **models/**: Defines the `Course` model.
+- **providers/**: Manages state for cart and bookmarks.
+- **screens/**: UI screens for the app.
+- **utils/**: Utility files for navigation and theme.
+- **widgets/**: Reusable UI components.
