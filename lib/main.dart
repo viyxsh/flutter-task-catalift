@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task_catalift/providers/bookmark_provider.dart';
 import 'package:flutter_task_catalift/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 import 'screens/main_screen.dart';
@@ -13,8 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => BookmarkProvider()),
+      ],
       child: MaterialApp(
         title: 'Catalift',
         theme: AppTheme.themeData,

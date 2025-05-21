@@ -51,6 +51,11 @@ class AppBottomNavigation extends StatelessWidget {
             activeIcon: Icon(Icons.shopping_cart),
             label: 'Cart',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'You',
+          ),
         ],
       ),
     );

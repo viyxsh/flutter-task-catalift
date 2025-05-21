@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_task_catalift/data/course_data.dart';
 import 'package:flutter_task_catalift/models/course.dart';
+import 'package:flutter_task_catalift/providers/bookmark_provider.dart';
 import 'package:flutter_task_catalift/providers/cart_provider.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/app_bottom_navigation.dart';
@@ -29,8 +30,6 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
-  bool _isBookmarked = false;
-
   @override
   Widget build(BuildContext context) {
     final filteredSimilarCourses = widget.similarCourses.where((course) {
@@ -71,23 +70,29 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: Icon(
-              _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-              color: AppTheme.primaryColor,
-              size: 24,
-            ),
-            onPressed: () {
-              setState(() {
-                _isBookmarked = !_isBookmarked;
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    _isBookmarked ? 'Course bookmarked!' : 'Bookmark removed!',
-                  ),
-                  duration: const Duration(seconds: 1),
+          Consumer<BookmarkProvider>(
+            builder: (context, bookmarkProvider, child) {
+              final isBookmarked = bookmarkProvider.isBookmarked(widget.course);
+              
+              return IconButton(
+                icon: Icon(
+                  isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                  color: AppTheme.primaryColor,
+                  size: 24,
                 ),
+                onPressed: () {
+                  bookmarkProvider.toggleBookmark(widget.course);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        isBookmarked 
+                            ? 'Bookmark removed!' 
+                            : 'Course bookmarked!',
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -333,7 +338,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                   Navigator.of(context).pop(); // Pop CourseDetailsScreen
                   widget.navigateToScreen(0); // Navigate to Home
                 },
-                child: Text(
+                child: const Text(
                   'See All',
                   style: TextStyle(
                     color: AppTheme.primaryColor,

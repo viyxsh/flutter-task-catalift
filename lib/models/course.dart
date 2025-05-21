@@ -1,7 +1,7 @@
 class Course {
   final String id;
   final String title;
-  final String? description;
+  final String description;
   final double price;
   final double rating;
   final int enrollments;
@@ -13,7 +13,7 @@ class Course {
   Course({
     required this.id,
     required this.title,
-    this.description,
+    required this.description,
     required this.price,
     required this.rating,
     required this.enrollments,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_catalift/screens/cart_screen.dart';
 import 'package:flutter_task_catalift/screens/home_screen.dart';
+import 'package:flutter_task_catalift/screens/profile_screen.dart';
 import 'package:flutter_task_catalift/widgets/app_bottom_navigation.dart';
 
 class MainScreen extends StatefulWidget {
@@ -51,6 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         );
       case 1:
         return CartScreen(
+          navigateToScreen: _navigateToScreen,
+        );
+      case 2:
+        return ProfileScreen(
           navigateToScreen: _navigateToScreen,
         );
       default:

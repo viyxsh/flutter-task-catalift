@@ -139,3 +139,7 @@ final List<String> courseCategories = [
   'Engineering',
   'Design',
 ];
+
+final Map<String, Course> allCoursesMap = {
+  for (var course in {...featuredCourses, ...similarCourses}) course.id: course
+};
