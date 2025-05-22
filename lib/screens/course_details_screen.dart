@@ -6,7 +6,7 @@ import 'package:flutter_task_catalift/providers/cart_provider.dart';
 import 'package:flutter_task_catalift/utils/theme.dart';
 import 'package:flutter_task_catalift/widgets/app_bottom_navigation.dart';
 import 'package:flutter_task_catalift/widgets/course_card.dart';
-import 'package:flutter_task_catalift/widgets/notifier_widget.dart'; 
+import 'package:flutter_task_catalift/widgets/notifier_widget.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   final Course course;
@@ -70,7 +70,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           Consumer<BookmarkProvider>(
             builder: (context, bookmarkProvider, child) {
               final isBookmarked = bookmarkProvider.isBookmarked(widget.course);
-              
+
               return IconButton(
                 icon: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
@@ -79,7 +79,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 ),
                 onPressed: () {
                   bookmarkProvider.toggleBookmark(widget.course);
-                  // Show NotifierWidget instead of SnackBar
                   NotifierWidget.show(
                     context,
                     message: isBookmarked ? 'Bookmark removed!' : 'Course bookmarked!',
@@ -251,7 +250,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                       } else {
                         cartProvider.addItem(widget.course);
                       }
-                      // Show NotifierWidget instead of SnackBar
                       NotifierWidget.show(
                         context,
                         message: isInCart
@@ -280,7 +278,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                     onPressed: () {
                       if (!isInCart) {
                         cartProvider.addItem(widget.course);
-                        // Show NotifierWidget instead of SnackBar
                         NotifierWidget.show(
                           context,
                           message: 'Course added to cart',
@@ -349,39 +346,45 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           height: 220,
           child: filteredCourses.isEmpty
               ? const Center(
-                  child: Text(
-                    'No similar courses found',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppTheme.lightTextColor,
-                    ),
-                  ),
-                )
+            child: Text(
+              'No similar courses found',
+              style: TextStyle(
+                fontSize: 16,
+                color: AppTheme.lightTextColor,
+              ),
+            ),
+          )
               : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: filteredCourses.length,
-                  itemBuilder: (context, index) {
-                    final course = filteredCourses[index];
-                    return CourseCard(
-                      course: course,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CourseDetailsScreen(
-                              course: course,
-                              similarCourses: widget.similarCourses,
-                              selectedCategory: widget.selectedCategory,
-                              onCategoryChanged: widget.onCategoryChanged,
-                              navigateToScreen: widget.navigateToScreen,
-                            ),
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            itemCount: filteredCourses.length,
+            itemBuilder: (context, index) {
+              final course = filteredCourses[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: SizedBox(
+                  width: 180, // Define width to ensure CourseCard renders
+                  child: CourseCard(
+                    course: course,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseDetailsScreen(
+                            course: course,
+                            similarCourses: widget.similarCourses,
+                            selectedCategory: widget.selectedCategory,
+                            onCategoryChanged: widget.onCategoryChanged,
+                            navigateToScreen: widget.navigateToScreen,
                           ),
-                        );
-                      },
-                    );
-                  },
+                        ),
+                      );
+                    },
+                  ),
                 ),
+              );
+            },
+          ),
         ),
       ],
     );

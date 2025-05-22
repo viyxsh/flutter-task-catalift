@@ -111,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: 50, 
+          height: 50,
           child: const Center(
             child: Text(
               'No courses purchased yet',
@@ -147,42 +147,48 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             SizedBox(
-              height: bookmarkedCourses.isEmpty ? 50 : 220, 
+              height: bookmarkedCourses.isEmpty ? 50 : 220,
               child: bookmarkedCourses.isEmpty
                   ? const Center(
-                      child: Text(
-                        'No bookmarked courses',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppTheme.lightTextColor,
-                        ),
-                      ),
-                    )
+                child: Text(
+                  'No bookmarked courses',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppTheme.lightTextColor,
+                  ),
+                ),
+              )
                   : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: bookmarkedCourses.length,
-                      itemBuilder: (context, index) {
-                        final course = bookmarkedCourses[index];
-                        return CourseCard(
-                          course: course,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CourseDetailsScreen(
-                                  course: course,
-                                  similarCourses: similarCourses,
-                                  selectedCategory: 'ALL',
-                                  onCategoryChanged: (_) {},
-                                  navigateToScreen: navigateToScreen,
-                                ),
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: bookmarkedCourses.length,
+                itemBuilder: (context, index) {
+                  final course = bookmarkedCourses[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: SizedBox(
+                      width: 180, // Define width to ensure CourseCard renders
+                      child: CourseCard(
+                        course: course,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CourseDetailsScreen(
+                                course: course,
+                                similarCourses: similarCourses,
+                                selectedCategory: 'ALL',
+                                onCategoryChanged: (_) {},
+                                navigateToScreen: navigateToScreen,
                               ),
-                            );
-                          },
-                        );
-                      },
+                            ),
+                          );
+                        },
+                      ),
                     ),
+                  );
+                },
+              ),
             ),
           ],
         );

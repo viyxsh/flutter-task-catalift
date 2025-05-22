@@ -20,7 +20,6 @@ class CourseCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 180,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -51,7 +50,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8), // Reduced from 12 to 8
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -79,7 +78,7 @@ class CourseCard extends StatelessWidget {
                         ),
                     ],
                   ),
-                  const SizedBox(height: 4), // Reduced from 8 to 4
+                  const SizedBox(height: 4),
                   Row(
                     children: [
                       const Icon(
@@ -114,7 +113,7 @@ class CourseCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4), // Reduced from 8 to 4
+                  const SizedBox(height: 4),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
